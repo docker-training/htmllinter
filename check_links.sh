@@ -16,6 +16,13 @@ do
                 url=`echo $line | sed -ne "s/.*href='\([^']*\).*/\1/p"`
                 #echo $url
             fi
+
+            # bail out on private repos
+            if [[ ("$url" == *"docker-training/exercises"*) || ("$url" == *"docker-training/presentations"*) || ("$url" == *"docker-training/communication-templates"*) ]]
+            then
+                continue
+            fi
+
             status_code=$(curl -o -I -L -s -w "%{http_code}\n" $url)
             #echo $status_code
 
